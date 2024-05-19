@@ -1,4 +1,4 @@
-#include <iostream>
+#include "lde.h"
 
 namespace Tree
 {
@@ -46,6 +46,14 @@ namespace Tree
         }
 
     public:
+        int getKey()
+        {
+            return this->info.key;
+        }
+        int getInfo()
+        {
+            return this->info.info;
+        }
         void prefixado()
         {
             if (this == nullptr)
@@ -71,7 +79,6 @@ namespace Tree
             this->info.print();
         }
 
-    public:
         void inserir(Binary *newNode)
         {
             if (this->info.key > newNode->info.key)
@@ -94,8 +101,42 @@ namespace Tree
         {
             Binary *aux = new Binary(info);
             this->inserir(aux);
-            
+        }
+
+        void deleteTree()
+        {
+            if (this == nullptr)
+                return;
+            if (this->esq != nullptr)
+            {
+                this->esq->deleteTree();
+                delete this->esq;
+            }
+            if (this->dir != nullptr)
+            {
+                this->dir->deleteTree();
+                delete this->dir;
+            }
         }
     };
 
+    class BinaryNoList : public LDE<Binary>
+    {
+    public:
+        void insertInOrder(Binary node)
+        {
+            if (node.getKey() == 0)
+                return;
+
+            No<Binary> *aux = this->getNo(0);
+            for (int i = 0; aux != nullptr; aux = aux->eloF, i++)
+            {
+                if (aux->eloF->info.getKey() > node.getKey())
+                {
+                    this->insert(i, node);
+                    return;
+                }
+            }
+        }
+    };
 }
