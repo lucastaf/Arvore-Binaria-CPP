@@ -6,10 +6,15 @@ namespace Tree
     {
         int key = 0;
         char info = ' ';
+
+        void print()
+        {
+            std::cout << this->key << "->" << this->info << ", \n";
+        }
     };
     class Binary
     {
-        BinaryNo *info = new BinaryNo();
+        BinaryNo info;
         Binary *esq = NULL, *dir = NULL;
 
         Binary insertLeft(BinaryNo info)
@@ -28,84 +33,69 @@ namespace Tree
     public:
         Binary(BinaryNo info)
         {
-            this->info = &info;
-        }
-        Binary(){}
-    private:
-        int countNodes(Binary *raiz)
-        {
-            if (raiz == NULL)
-                return 0;
-            return 1 + this->countNodes(raiz->esq) + this->countNodes(raiz->dir);
+            this->info = info;
         }
 
-    public:
         int countNodes()
         {
-            return 1 + this->countNodes(this->esq) + this->countNodes(this->dir);
-        }
-
-    private:
-        void prefixado(Binary *raiz)
-        {
-            if (raiz == NULL)
-                return;
-            std::cout << raiz->info->key << " -> " << raiz->info->key << ", ";
-            prefixado(raiz->esq);
-            prefixado(raiz->dir);
-        }
-        void infixado(Binary *raiz)
-        {
-            if (raiz == NULL)
-                return;
-            prefixado(raiz->esq);
-            std::cout << raiz->info->key << " -> " << raiz->info->key << ", ";
-            prefixado(raiz->dir);
-        }
-        void posfixado(Binary *raiz)
-        {
-            if (raiz == NULL)
-                return;
-            prefixado(raiz->esq);
-            std::cout << raiz->info->key << " -> " << raiz->info->key << ", ";
-            prefixado(raiz->dir);
+            if (this == nullptr)
+            {
+                return 0;
+            }
+            return 1 + this->esq->countNodes() + this->dir->countNodes();
         }
 
     public:
         void prefixado()
         {
-            this->prefixado(this);
+            if (this == nullptr)
+                return;
+            this->info.print();
+            this->esq->prefixado();
+            this->dir->prefixado();
         }
         void infixado()
         {
-            this->infixado(this);
+            if (this == nullptr)
+                return;
+            this->esq->infixado();
+            this->info.print();
+            this->dir->infixado();
         }
         void posfixado()
         {
-            this->posfixado(this);
-        }
-        
-    private:
-        void inserir(Binary *raiz, BinaryNo info){
-            if(raiz == NULL){
-                raiz = new Binary();
-            }
-            if(raiz->info == NULL){
-                raiz->info = &info;
+            if (this == nullptr)
                 return;
-            }
-            if(raiz->info->key > info.key){
-                this->inserir(raiz->esq, info);
-            } else{
-                this->inserir(raiz->dir, info);
-            }
-        }
-    public:
-        void inserir(BinaryNo info){
-            this->inserir(this, info);
+            this->esq->posfixado();
+            this->dir->posfixado();
+            this->info.print();
         }
 
-    
+    public:
+        void inserir(Binary *newNode)
+        {
+            if (this->info.key > newNode->info.key)
+            {
+                if (this->esq == nullptr)
+                    this->esq = newNode;
+                else
+                    this->esq->inserir(newNode);
+            }
+            else
+            {
+                if (this->dir == nullptr)
+                    this->dir = newNode;
+                else
+                    this->dir->inserir(newNode);
+            }
+        }
+
+        void inserir(BinaryNo info)
+        {
+            Binary *aux = new Binary(info);
+            this->inserir(aux);
+            
+        }
     };
 
 }
