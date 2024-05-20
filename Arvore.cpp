@@ -5,7 +5,7 @@ namespace Tree
     struct BinaryNo
     {
         int key = 0;
-        char info = ' ';
+        char info = char(0);
 
         void print()
         {
@@ -17,20 +17,18 @@ namespace Tree
         BinaryNo info;
         Binary *esq = NULL, *dir = NULL;
 
-        Binary insertLeft(BinaryNo info)
+    public:
+        void insertLeft(Binary *info)
         {
-            Binary *aux = new Binary(info);
-            this->esq = aux;
-            return *aux;
+            this->esq = info;
         }
-        Binary insertRight(BinaryNo info)
+        void insertRight(Binary *info)
         {
-            Binary *aux = new Binary(info);
-            this->dir = aux;
-            return *aux;
+            this->dir = info;
         }
 
-    public:
+        Binary() {}
+
         Binary(BinaryNo info)
         {
             this->info = info;
@@ -50,7 +48,7 @@ namespace Tree
         {
             return this->info.key;
         }
-        int getInfo()
+        char getInfo()
         {
             return this->info.info;
         }
@@ -120,23 +118,37 @@ namespace Tree
         }
     };
 
-    class BinaryNoList : public LDE<Binary>
+    class BinaryList : public LDE<Binary>
     {
+
     public:
-        void insertInOrder(Binary node)
+        void insertInOrder(Binary *node)
         {
-            if (node.getKey() == 0)
+            if (node->getInfo() == 0)
                 return;
 
             No<Binary> *aux = this->getNo(0);
+            if (aux == nullptr)
+            {
+                this->push(*node);
+                return;
+            }
             for (int i = 0; aux != nullptr; aux = aux->eloF, i++)
             {
-                if (aux->eloF->info.getKey() > node.getKey())
+                if (aux->info.getKey() > node->getKey())
                 {
-                    this->insert(i, node);
+                    this->insert(i, *node);
                     return;
                 }
             }
+            this->push(*node);
+        }
+
+        void print()
+        {
+
+            for (No<Binary> *aux = this->getNo(0); aux != nullptr; aux = aux->eloF)
+                std::cout << aux->info.getKey() << "->" << aux->info.getInfo() << ", ";
         }
     };
 }

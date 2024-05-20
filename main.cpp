@@ -1,23 +1,12 @@
 #include "Huffmann.cpp"
-using namespace Tree;
 using namespace std;
+using namespace Tree;
+
 int main()
 {
-    BinaryNo noRaiz = {0, 'C'};
-
-    Binary *raiz = new Binary({7, 'C'});
-
-    raiz->inserir({2, 'A'});
-    raiz->inserir({3, 'B'});
-    raiz->inserir({1, 'C'});
-    raiz->inserir({5, 'D'});
-
-    raiz->prefixado();
-    cout << "\n";
-    raiz->infixado();
-
-    raiz->deleteTree();
-
-    BinaryNoList lista = huffmann::calcularFrequencia("TESTEEE");
-    int teste = 4;
+    BinaryList frequencyList = huffmann::calcularFrequencia("BOBOBO ME DA O CU");
+    //frequencyList.print();
+    Binary finalTree = huffmann::generateHuffmannTree(frequencyList);
+    finalTree.prefixado();
+    finalTree.infixado();
 }

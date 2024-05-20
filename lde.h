@@ -1,10 +1,11 @@
-#include <iostream>
+#include <iostream> 
 #include <ctime>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
 #include <fstream>
 #include <string>
+
 
 template <class tipoInfo>
 struct No
