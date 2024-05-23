@@ -4,9 +4,11 @@ using namespace Tree;
 
 int main()
 {
-    BinaryList frequencyList = huffmann::calcularFrequencia("BOBOBO ME DA O CU");
-    //frequencyList.print();
+    BinaryList frequencyList = huffmann::calcularFrequencia("AAAAAAAAAAKOASDHNJIA");
+    frequencyList.print();
     Binary finalTree = huffmann::generateHuffmannTree(frequencyList);
+
     finalTree.prefixado();
-    finalTree.infixado();
+    cout << endl << finalTree.countLeaf() << endl;
+    finalTree.prefixado(true);
 }
