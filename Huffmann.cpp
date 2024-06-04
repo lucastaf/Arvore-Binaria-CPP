@@ -7,7 +7,7 @@ namespace huffmann
     BinaryList calcularFrequencia(std::string palavra)
     {
         BinaryList auxList;
-        BinaryInfo NodeList[256];
+        BinaryInfo<char> NodeList[256];
         for (int i = 0; i < palavra.length(); i++)
         {
             NodeList[palavra[i]].info = palavra[i];
@@ -17,29 +17,29 @@ namespace huffmann
         {
             if (NodeList[i].key != 0)
             {
-                Binary *aux = new Binary(NodeList[i]);
+                Binary<char> *aux = new Binary<char>(NodeList[i]);
                 auxList.insertInOrder(aux);
             }
         }
         return auxList;
     }
 
-    Binary generateHuffmannTree(BinaryList lista)
+    Binary<char> generateHuffmannTree(BinaryList lista)
     {
         while (lista.getLength() > 1)
         {
-            Binary* primeiroItem = lista.getItem(0);
-            Binary* segundoItem = lista.getItem(1);
+            Binary<char> *primeiroItem = lista.getItem(0);
+            Binary<char> *segundoItem = lista.getItem(1);
             int soma = primeiroItem->getKey() + segundoItem->getKey();
 
-            Binary *novaArvore = new Tree::Binary({soma, char(NULL)});
+            Binary<char> *novaArvore = new Tree::Binary<char>({soma, char(NULL)});
             novaArvore->insertLeft(primeiroItem);
             novaArvore->insertRight(segundoItem);
             lista.deleteItemById(0);
             lista.deleteItemById(0);
             lista.insertInOrder(novaArvore);
         }
-        return* lista.getItem(0);
+        return *lista.getItem(0);
     }
 
 }
